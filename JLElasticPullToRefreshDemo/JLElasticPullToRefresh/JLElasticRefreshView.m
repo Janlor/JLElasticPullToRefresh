@@ -175,16 +175,16 @@
     BOOL animating = [self isAnimating];
     
     [bezierPath moveToPoint:CGPointZero];
-    [bezierPath addLineToPoint:CGPointMake(0.f, [_l3ControlPointView cyer_center:animating].y)];
-    [bezierPath addCurveToPoint:[_l1ControlPointView cyer_center:animating]
-                  controlPoint1:[_l3ControlPointView cyer_center:animating]
-                  controlPoint2:[_l2ControlPointView cyer_center:animating]];
-    [bezierPath addCurveToPoint:[_r1ControlPointView cyer_center:animating]
-                  controlPoint1:[_cControlPointView cyer_center:animating]
-                  controlPoint2:[_r1ControlPointView cyer_center:animating]];
-    [bezierPath addCurveToPoint:[_r3ControlPointView cyer_center:animating]
-                  controlPoint1:[_r1ControlPointView cyer_center:animating]
-                  controlPoint2:[_r2ControlPointView cyer_center:animating]];
+    [bezierPath addLineToPoint:CGPointMake(0.f, [_l3ControlPointView jler_center:animating].y)];
+    [bezierPath addCurveToPoint:[_l1ControlPointView jler_center:animating]
+                  controlPoint1:[_l3ControlPointView jler_center:animating]
+                  controlPoint2:[_l2ControlPointView jler_center:animating]];
+    [bezierPath addCurveToPoint:[_r1ControlPointView jler_center:animating]
+                  controlPoint1:[_cControlPointView jler_center:animating]
+                  controlPoint2:[_r1ControlPointView jler_center:animating]];
+    [bezierPath addCurveToPoint:[_r3ControlPointView jler_center:animating]
+                  controlPoint1:[_r1ControlPointView jler_center:animating]
+                  controlPoint2:[_r2ControlPointView jler_center:animating]];
     [bezierPath addLineToPoint:CGPointMake(width, 0.f)];
     
     [bezierPath closePath];
@@ -223,7 +223,7 @@
         contentInset.top += kLoadingContentInset;
     }
     
-    [scrollView cyer_removeObserver:self forKeyPath:kContentInset];
+    [scrollView jler_removeObserver:self forKeyPath:kContentInset];
     
     void (^animationBlock)(void) = ^(){
         scrollView.contentInset = contentInset;
@@ -231,7 +231,7 @@
     
     void (^completionBlock)(void) = ^(){
         if (shouldAddObserverWhenFinished && self.observing) {
-            [scrollView cyer_addObserver:self forKeyPath:kContentInset];
+            [scrollView jler_addObserver:self forKeyPath:kContentInset];
             if (completion) { completion(); }
         }
     };
@@ -262,8 +262,8 @@
     
     scrollView.scrollEnabled = NO;
     [self startDisplayLink];
-    [scrollView cyer_removeObserver:self forKeyPath:kContentOffset];
-    [scrollView cyer_removeObserver:self forKeyPath:kContentInset];
+    [scrollView jler_removeObserver:self forKeyPath:kContentOffset];
+    [scrollView jler_removeObserver:self forKeyPath:kContentInset];
     [UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:0.43 initialSpringVelocity:0.0 options:0 animations:^{
         weakSelf.cControlPointView.center  = CGPointMake(weakSelf.cControlPointView.center.x, centerY);
         weakSelf.l1ControlPointView.center = CGPointMake(weakSelf.l1ControlPointView.center.x, centerY);
@@ -278,7 +278,7 @@
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         UIScrollView *strongScrollView = [strongSelf scrollView];
         if (strongSelf && strongScrollView) {
-            [strongScrollView cyer_addObserver:self forKeyPath:kContentOffset];
+            [strongScrollView jler_addObserver:self forKeyPath:kContentOffset];
             strongScrollView.scrollEnabled = YES;
         }
         weakSelf.state = JLElasticRefreshStateLoading;
@@ -308,7 +308,7 @@
         UIScrollView *scrollView = [self scrollView];
         if (!scrollView) { return; }
         
-        CGFloat top = [_bounceAnimationHelperView cyer_center:[self isAnimating]].y;
+        CGFloat top = [_bounceAnimationHelperView jler_center:[self isAnimating]].y;
         CGFloat left = scrollView.contentInset.left;
         CGFloat bottom = scrollView.contentInset.bottom;
         CGFloat right = scrollView.contentInset.right;
@@ -430,15 +430,15 @@
     UIScrollView *scrollView = [self scrollView];
     if (!scrollView) { return; }
     if (_observing) {
-        [scrollView cyer_addObserver:self forKeyPath:kContentOffset];
-        [scrollView cyer_addObserver:self forKeyPath:kContentInset];
-        [scrollView cyer_addObserver:self forKeyPath:kFrame];
-        [scrollView cyer_addObserver:self forKeyPath:kPanGestureRecognizerState];
+        [scrollView jler_addObserver:self forKeyPath:kContentOffset];
+        [scrollView jler_addObserver:self forKeyPath:kContentInset];
+        [scrollView jler_addObserver:self forKeyPath:kFrame];
+        [scrollView jler_addObserver:self forKeyPath:kPanGestureRecognizerState];
     } else {
-        [scrollView cyer_removeObserver:self forKeyPath:kContentOffset];
-        [scrollView cyer_removeObserver:self forKeyPath:kContentInset];
-        [scrollView cyer_removeObserver:self forKeyPath:kFrame];
-        [scrollView cyer_removeObserver:self forKeyPath:kPanGestureRecognizerState];
+        [scrollView jler_removeObserver:self forKeyPath:kContentOffset];
+        [scrollView jler_removeObserver:self forKeyPath:kContentInset];
+        [scrollView jler_removeObserver:self forKeyPath:kFrame];
+        [scrollView jler_removeObserver:self forKeyPath:kPanGestureRecognizerState];
     }
 }
 

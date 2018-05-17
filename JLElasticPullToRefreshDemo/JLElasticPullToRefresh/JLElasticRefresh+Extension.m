@@ -15,39 +15,39 @@
 
 @interface NSObject ()
 
-@property (nonatomic, strong) NSMutableArray *cyer_observers;
+@property (nonatomic, strong) NSMutableArray *jler_observers;
 
 @end
 
 @implementation NSObject (JLElasticRefresh)
 
-static char *cyer_associatedObserversKeys = "observers";
+static char *jler_associatedObserversKeys = "observers";
 
-- (NSMutableArray *)cyer_observers {
-    NSMutableArray *observers = objc_getAssociatedObject(self, cyer_associatedObserversKeys);
+- (NSMutableArray *)jler_observers {
+    NSMutableArray *observers = objc_getAssociatedObject(self, jler_associatedObserversKeys);
     if (!observers) {
         observers = [NSMutableArray array];
-        self.cyer_observers = observers;
+        self.jler_observers = observers;
     }
     return observers;
 }
 
-- (void)setCyer_observers:(NSMutableArray *)cyer_observers {
-    objc_setAssociatedObject(self, cyer_associatedObserversKeys, cyer_observers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setJler_observers:(NSMutableArray *)jler_observers {
+    objc_setAssociatedObject(self, jler_associatedObserversKeys, jler_observers, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)cyer_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
+- (void)jler_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
     NSDictionary *observerInfo = @{keyPath: observer};
-    if (![self.cyer_observers containsObject:observerInfo]) {
-        [self.cyer_observers addObject:observerInfo];
+    if (![self.jler_observers containsObject:observerInfo]) {
+        [self.jler_observers addObject:observerInfo];
         [self addObserver:observer forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:nil];
     }
 }
 
-- (void)cyer_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
+- (void)jler_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath {
     NSDictionary *observerInfo = @{keyPath: observer};
-    if ([self.cyer_observers containsObject:observerInfo]) {
-        [self.cyer_observers removeObject:observerInfo];
+    if ([self.jler_observers containsObject:observerInfo]) {
+        [self.jler_observers removeObject:observerInfo];
         [self removeObserver:observer forKeyPath:keyPath];
     }
 }
@@ -64,17 +64,17 @@ static char *cyer_associatedObserversKeys = "observers";
 
 @implementation UIScrollView (JLElasticRefresh)
 
-static char *cyer_associatedRefreshViewKeys = "RefreshView";
+static char *jler_associatedRefreshViewKeys = "RefreshView";
 
 - (UIView *)refreshView {
-    return objc_getAssociatedObject(self, cyer_associatedRefreshViewKeys);
+    return objc_getAssociatedObject(self, jler_associatedRefreshViewKeys);
 }
 
-- (void)setRefreshView:(UIView *)refreshView {
-    objc_setAssociatedObject(self, cyer_associatedRefreshViewKeys, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setRefreshView:(JLElasticRefreshView *)refreshView {
+    objc_setAssociatedObject(self, jler_associatedRefreshViewKeys, refreshView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)cyer_addRefreshWithActionHandler:(void(^)(void))actionHandler loadingView:(JLElasticRefreshLoadingView *)loadingView {
+- (void)jler_addRefreshWithActionHandler:(void(^)(void))actionHandler loadingView:(JLElasticRefreshLoadingView *)loadingView {
     self.multipleTouchEnabled = NO;
     self.panGestureRecognizer.minimumNumberOfTouches = 1;
     
@@ -86,21 +86,21 @@ static char *cyer_associatedRefreshViewKeys = "RefreshView";
     refreshView.observing = YES;
 }
 
-- (void)cyer_removeRefresh {
+- (void)jler_removeRefresh {
     [self.refreshView disassociateDisplayLink];
     self.refreshView.observing = NO;
     [self.refreshView removeFromSuperview];
 }
 
-- (void)cyer_setRefreshBackgroundColor:(UIColor *)color {
+- (void)jler_setRefreshBackgroundColor:(UIColor *)color {
     self.refreshView.backgroundColor = color;
 }
 
-- (void)cyer_setRefreshFillColor:(UIColor *)color {
+- (void)jler_setRefreshFillColor:(UIColor *)color {
     self.refreshView.fillColor = color;
 }
 
-- (void)cyer_stopLoading {
+- (void)jler_stopLoading {
     [self.refreshView stopLoading];
 }
 
@@ -110,7 +110,7 @@ static char *cyer_associatedRefreshViewKeys = "RefreshView";
 
 @implementation UIView (JLElasticRefresh)
 
-- (CGPoint)cyer_center:(BOOL)usePresentationLayerIfPossible {
+- (CGPoint)jler_center:(BOOL)usePresentationLayerIfPossible {
     CALayer *presentationLayer = self.layer.presentationLayer;
     if (usePresentationLayerIfPossible && presentationLayer) {
         return presentationLayer.position;
@@ -124,7 +124,7 @@ static char *cyer_associatedRefreshViewKeys = "RefreshView";
 
 @implementation UIPanGestureRecognizer (JLElasticRefresh)
 
-- (void)cyer_resign {
+- (void)jler_resign {
     self.enabled = NO;
     self.enabled = YES;
 }

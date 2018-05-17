@@ -133,6 +133,7 @@
 		7A96084620A0333B0046A753 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = JL;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = LingLingBang;
 				TargetAttributes = {

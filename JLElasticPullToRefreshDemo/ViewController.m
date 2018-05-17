@@ -28,17 +28,17 @@
     JLElasticRefreshLoadingViewCircle *loadingView = [[JLElasticRefreshLoadingViewCircle alloc] init];
     loadingView.tintColor = [UIColor whiteColor];
     __weak typeof(self) weakSelf = self;
-    [_tableView cyer_addRefreshWithActionHandler:^{
+    [_tableView jler_addRefreshWithActionHandler:^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.tableView cyer_stopLoading];
+            [weakSelf.tableView jler_stopLoading];
         });
     } loadingView:loadingView];
-    [_tableView cyer_setRefreshFillColor:[UIColor colorWithRed: 57/255.0 green: 67/255.0 blue: 89/255.0 alpha: 1.0]];
-    [_tableView cyer_setRefreshBackgroundColor:_tableView.backgroundColor];
+    [_tableView jler_setRefreshFillColor:[UIColor colorWithRed: 57/255.0 green: 67/255.0 blue: 89/255.0 alpha: 1.0]];
+    [_tableView jler_setRefreshBackgroundColor:_tableView.backgroundColor];
 }
 
 - (void)dealloc {
-    [_tableView cyer_removeRefresh];
+    [_tableView jler_removeRefresh];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -48,7 +48,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellID = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-    cell.textLabel.text = [NSString stringWithFormat:@"%zd", indexPath.row];
+    cell.textLabel.text = [@(indexPath.row) stringValue];
     return cell;
 }
 

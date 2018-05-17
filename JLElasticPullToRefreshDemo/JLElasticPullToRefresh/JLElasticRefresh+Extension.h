@@ -13,31 +13,31 @@
 
 @interface NSObject (JLElasticRefresh)
 
-- (void)cyer_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
-- (void)cyer_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
+- (void)jler_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
+- (void)jler_removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;
 
 @end
 
 @interface UIScrollView (JLElasticRefresh)
 
-- (void)cyer_addRefreshWithActionHandler:(void(^)(void))actionHandler
+- (void)jler_addRefreshWithActionHandler:(void(^)(void))actionHandler
                              loadingView:(JLElasticRefreshLoadingView *)loadingView;
-- (void)cyer_removeRefresh;
-- (void)cyer_setRefreshBackgroundColor:(UIColor *)color;
-- (void)cyer_setRefreshFillColor:(UIColor *)color;
-- (void)cyer_stopLoading;
+- (void)jler_removeRefresh;
+- (void)jler_setRefreshBackgroundColor:(UIColor *)color;
+- (void)jler_setRefreshFillColor:(UIColor *)color;
+- (void)jler_stopLoading;
 
 @end
 
 @interface UIView (JLElasticRefresh)
 
-- (CGPoint)cyer_center:(BOOL)usePresentationLayerIfPossible;
+- (CGPoint)jler_center:(BOOL)usePresentationLayerIfPossible;
 
 @end
 
 @interface UIPanGestureRecognizer (JLElasticRefresh)
 
-- (void)cyer_resign;
+- (void)jler_resign;
 
 @end
 
