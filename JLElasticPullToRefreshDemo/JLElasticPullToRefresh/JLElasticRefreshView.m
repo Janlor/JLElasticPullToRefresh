@@ -106,19 +106,29 @@
             [self scrollViewDidChangeContentOffset:scrollView.dragging];
         }
         [self layoutSubviews];
-    } else if ([keyPath isEqualToString:kContentInset]) {
+        return;
+    }
+    
+    if ([keyPath isEqualToString:kContentInset]) {
         UIEdgeInsets newContentInset = [change[NSKeyValueChangeNewKey] UIEdgeInsetsValue];
         CGFloat newContentInsetTop = newContentInset.top;
         _originalContentInsetTop = newContentInsetTop;
-    } else if ([keyPath isEqualToString:kFrame]) {
+        return;
+    }
+    
+    if ([keyPath isEqualToString:kFrame]) {
         [self layoutSubviews];
-    } else if ([keyPath isEqualToString:kPanGestureRecognizerState]) {
+        return;
+    }
+    
+    if ([keyPath isEqualToString:kPanGestureRecognizerState]) {
         UIGestureRecognizerState gestureState = [self scrollView].panGestureRecognizer.state;
         if (gestureState == UIGestureRecognizerStateEnded ||
             gestureState == UIGestureRecognizerStateCancelled ||
             gestureState == UIGestureRecognizerStateFailed) {
             [self scrollViewDidChangeContentOffset:NO];
         }
+        return;
     }
 }
 
@@ -130,7 +140,7 @@
     }
 }
 
-#pragma mark - Methods (Public)
+#pragma mark - Public Methods
 
 - (void)disassociateDisplayLink {
     [self.displayLink invalidate];
@@ -145,7 +155,7 @@
     return (UIScrollView *)self.superview;
 }
 
-#pragma mark - Methods (Private)
+#pragma mark - Private Methods
 
 - (BOOL)isAnimating {
     return _state == JLElasticRefreshStateAnimatingBounce ||
@@ -197,20 +207,29 @@
     
     if (_state == JLElasticRefreshStateStopped && dragging) {
         self.state = JLElasticRefreshStateDragging;
-    } else if (_state == JLElasticRefreshStateDragging && dragging == NO) {
+        return;
+    }
+    
+    if (_state == JLElasticRefreshStateDragging && dragging == NO) {
         if (offsetY >= kMinOffsetToPull) {
             self.state = JLElasticRefreshStateAnimatingBounce;
         } else {
             self.state = JLElasticRefreshStateStopped;
         }
-    } else if (_state == JLElasticRefreshStateDragging ||
+        return;
+    }
+    
+    if (_state == JLElasticRefreshStateDragging ||
                _state == JLElasticRefreshStateStopped) {
         CGFloat pullProgress = offsetY / kMinOffsetToPull;
         [self.loadingView setPullProgress:pullProgress];
+        return;
     }
 }
 
-- (void)resetScrollViewContentInset:(BOOL)shouldAddObserverWhenFinished animated:(BOOL)animated completion:(void(^)(void))completion {
+- (void)resetScrollViewContentInset:(BOOL)shouldAddObserverWhenFinished
+                           animated:(BOOL)animated
+                         completion:(void(^)(void))completion {
     UIScrollView *scrollView = [self scrollView];
     if (!scrollView) { return; }
     
@@ -238,7 +257,9 @@
     
     if (animated) {
         [self startDisplayLink];
-        [UIView animateWithDuration:0.4 animations:animationBlock completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.4
+                         animations:animationBlock
+                         completion:^(BOOL finished) {
             [self stopDisplayLink];
             completionBlock();
         }];
@@ -396,19 +417,30 @@
 - (void)setState:(JLElasticRefreshState)state {
     JLElasticRefreshState previousValue = _state;
     _state = state;
+    
     if (previousValue == JLElasticRefreshStateDragging &&
         state == JLElasticRefreshStateAnimatingBounce) {
         [self.loadingView startAnimating];
         [self animateBounce];
-    } else if (state == JLElasticRefreshStateLoading) {
+        return;
+    }
+    
+    if (state == JLElasticRefreshStateLoading) {
         if (self.actionHandler) { self.actionHandler(); }
-    } else if (state == JLElasticRefreshStateAnimatingToStopped) {
+        return;
+    }
+    
+    if (state == JLElasticRefreshStateAnimatingToStopped) {
         __weak typeof(self) weakSelf = self;
         [self resetScrollViewContentInset:YES animated:YES completion:^{
             weakSelf.state = JLElasticRefreshStateStopped;
         }];
-    } else if (state == JLElasticRefreshStateStopped) {
+        return;
+    }
+    
+    if (state == JLElasticRefreshStateStopped) {
         [self.loadingView stopLoading];
+        return;
     }
 }
 

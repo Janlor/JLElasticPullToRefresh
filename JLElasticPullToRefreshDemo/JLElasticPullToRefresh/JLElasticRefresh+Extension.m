@@ -21,7 +21,7 @@
 
 @implementation NSObject (JLElasticRefresh)
 
-static char *jler_associatedObserversKeys = "observers";
+static char *jler_associatedObserversKeys = "jler_observers";
 
 - (NSMutableArray *)jler_observers {
     NSMutableArray *observers = objc_getAssociatedObject(self, jler_associatedObserversKeys);
@@ -64,7 +64,7 @@ static char *jler_associatedObserversKeys = "observers";
 
 @implementation UIScrollView (JLElasticRefresh)
 
-static char *jler_associatedRefreshViewKeys = "RefreshView";
+static char *jler_associatedRefreshViewKeys = "jler_refreshView";
 
 - (UIView *)refreshView {
     return objc_getAssociatedObject(self, jler_associatedRefreshViewKeys);
